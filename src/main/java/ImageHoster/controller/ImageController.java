@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
@@ -27,7 +26,7 @@ public class ImageController {
     @Autowired
     private TagService tagService;
 
-    //This method displays all the images in the user home page after successful login
+    //This method displays all the images in the home page after successful login
     @RequestMapping("images")
     public String getUserImages(Model model) {
         List<Image> images = imageService.getAllImages();
@@ -36,7 +35,7 @@ public class ImageController {
     }
 
     //This method is called when the details of the specific image with corresponding title are to be displayed
-    //The logic is to get the image from the databse with corresponding title. After getting the image from the database the details are shown
+    //The logic is to get the image from the database with corresponding title. After getting the image from the database the details are shown
     //First receive the dynamic parameter in the incoming request URL in a string variable 'title' and also the Model type object
     //Call the getImageByTitle() method in the business logic to fetch all the details of that image
     //Add the image in the Model type object with 'image' as the key
@@ -77,7 +76,6 @@ public class ImageController {
         newImage.setUser(user);
         String uploadedImageData = convertUploadedFileToBase64(file);
         newImage.setImageFile(uploadedImageData);
-
         List<Tag> imageTags = findOrCreateTags(tags);
         newImage.setTags(imageTags);
         newImage.setDate(new Date());
@@ -88,7 +86,6 @@ public class ImageController {
     //This controller method is called when the request pattern is of type 'editImage'
     //This method fetches the image with the corresponding id from the database and adds it to the model with the key as 'image'
     //The method then returns 'images/edit.html' file wherein you fill all the updated details of the image
-
     //The method first needs to convert the list of all the tags to a string containing all the tags separated by a comma and then add this string in a Model type object
     //This string is then displayed by 'edit.html' file as previous tags of an image
     @RequestMapping(value = "/editImage")
@@ -109,7 +106,6 @@ public class ImageController {
     //Set the date on which the image is posted
     //Call the updateImage() method in the business logic to update the image
     //Direct to the same page showing the details of that particular updated image
-
     //The method also receives tags parameter which is a string of all the tags separated by a comma using the annotation @RequestParam
     //The method converts the string to a list of all the tags using findOrCreateTags() method and sets the tags attribute of an image as a list of all the tags
     @RequestMapping(value = "/editImage", method = RequestMethod.PUT)
@@ -135,7 +131,6 @@ public class ImageController {
         return "redirect:/images/" + updatedImage.getTitle();
     }
 
-
     //This controller method is called when the request pattern is of type 'deleteImage' and also the incoming request is of DELETE type
     //The method calls the deleteImage() method in the business logic passing the id of the image to be deleted
     //Looks for a controller method with request mapping of type '/images'
@@ -144,7 +139,6 @@ public class ImageController {
         imageService.deleteImage(imageId);
         return "redirect:/images";
     }
-
 
     //This method converts the image to Base64 format
     private String convertUploadedFileToBase64(MultipartFile file) throws IOException {
@@ -170,7 +164,6 @@ public class ImageController {
         }
         return tags;
     }
-
 
     //The method receives the list of all tags
     //Converts the list of all tags to a single string containing all the tags separated by a comma
